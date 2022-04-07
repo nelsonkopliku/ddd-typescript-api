@@ -12,8 +12,7 @@ COPY --chown=node:node package.json /app
 COPY --chown=node:node yarn.lock /app
 COPY --chown=node:node tsconfig.json /app
 
-COPY --chown=node:node ./dist /app/dist
-# Should we copy the whole project in the image?
+# COPY --chown=node:node ./dist /app/dist
 
 RUN yarn install && yarn build
 
