@@ -1,0 +1,6 @@
+version: '3.8'
+
+services:
+    
+    cluster_management_db:
+        platform: linux/x86_64

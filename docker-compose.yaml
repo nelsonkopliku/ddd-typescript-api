@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+    cluster_management_api:
+        build:
+            context: .
+            dockerfile: ./docker/backend/Dockerfile
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/app
+        depends_on:
+            - cluster_management_db
+        command: sh -c "yarn && yarn start:dev"
+    
+    cluster_management_db:
+        image: mysql:8.0.25
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=cluster_node_management
+            - MYSQL_USER=admin
+            - MYSQL_PASSWORD=admin
+        volumes:
+            - cluster_management_db_volume:/var/lib/mysql
+            - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw
+            - ./docker/mysql/etc/conf.d/my.cnf:/etc/mysql/conf.d/custom.cnf
+    
+volumes:
+    cluster_management_db_volume:
